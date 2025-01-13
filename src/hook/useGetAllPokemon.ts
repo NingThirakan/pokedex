@@ -1,20 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { PokedexReq } from "../@types";
-import { PokedexModel, PokemonModel } from "../model/PokemonModel";
+import { pokemon_api } from "../config/api";
 import { PokemonDetailModel } from "../model/PokemonDetailModel";
+import { PokedexModel, PokemonModel } from "../model/PokemonModel";
 
-export const useGetAllPokemon = ({ offset, limit }: PokedexReq) => {
+export const useGetAllPokemon = ({ offset, limit, enabled }: PokedexReq) => {
   const fetchPokemon = async () => {
     const resPokedex = await fetch(
-      `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
+      `${pokemon_api}?offset=${offset}&limit=${limit}`
     );
     const pokedex: PokedexModel = await resPokedex.json();
 
     const pokemons: PokemonDetailModel[] = await Promise.all(
       pokedex.results.map(async (item) => {
-        const res = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${item.name}`
-        );
+        const res = await fetch(`${pokemon_api}/${item.name}`);
         return res.json();
       })
     );
@@ -25,10 +24,11 @@ export const useGetAllPokemon = ({ offset, limit }: PokedexReq) => {
     };
   };
 
-  const { isLoading, data } = useQuery<PokemonModel>(
-    ["getAllPokemon", offset, limit],
-    fetchPokemon
-  );
+  const { isLoading, data } = useQuery<PokemonModel>({
+    queryKey: ["getAllPokemon", offset, limit],
+    queryFn: fetchPokemon,
+    enabled: enabled,
+  });
 
   return { isLoading, data };
 };
