@@ -12,6 +12,9 @@ export const theme = createTheme({
   },
   components: {
     MuiTypography: {
+      defaultProps: {
+        variant: "body2",
+      },
       styleOverrides: {
         root: {
           color: Colors.primary,
@@ -25,10 +28,30 @@ export const theme = createTheme({
           },
         },
         {
-          props: { variant: "subtitle2" },
+          props: { variant: "h6" },
+          style: {
+            fontWeight: 600,
+          },
+        },
+        {
+          props: { variant: "body1" },
+          style: {
+            fontWeight: 600,
+            fontSize: 14,
+          },
+        },
+        {
+          props: { variant: "subtitle1" },
           style: {
             fontWeight: 600,
             fontSize: 18,
+          },
+        },
+        {
+          props: { variant: "subtitle2" },
+          style: {
+            fontWeight: 600,
+            fontSize: 14,
           },
         },
       ],
