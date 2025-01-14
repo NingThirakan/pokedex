@@ -5,9 +5,12 @@ import { Colors } from "../../constants/Colors";
 type Props = {
   children: ReactNode;
   maxWidth?: number;
+  p?: number;
+  px?: number;
+  py?: number;
 };
 
-export const BoxContainer = ({ children, maxWidth }: Props) => {
+export const BoxContainer = ({ children, maxWidth, px, py }: Props) => {
   return (
     <Box
       display="flex"
@@ -17,8 +20,8 @@ export const BoxContainer = ({ children, maxWidth }: Props) => {
       mt={3}
       border={`1px solid ${Colors.primary}`}
       borderRadius={2}
-      py={4}
-      px={1}
+      py={px || 4}
+      px={py || 1}
       maxWidth={maxWidth || 1500}
       sx={{
         backgroundColor: Colors.background,

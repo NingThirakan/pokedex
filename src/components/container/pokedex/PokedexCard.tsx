@@ -25,7 +25,9 @@ export const PokedexCard = ({ pokemon, onClick }: Props) => {
     <Card
       sx={{
         width: 270,
-        backgroundColor: `rgba(${hexToRgb(Colors.grass)})`,
+        backgroundColor: `rgba(${hexToRgb(
+          Colors[types[0].type.name as keyof typeof Colors]
+        )})`,
       }}
     >
       <CardActionArea onClick={() => onClick(id)}>
@@ -49,8 +51,8 @@ export const PokedexCard = ({ pokemon, onClick }: Props) => {
           }}
         >
           <Box display="flex" flexDirection="column" gap={1}>
-            <Typography variant="body2">{id}</Typography>
-            <Typography variant="subtitle2">{_.upperFirst(name)}</Typography>
+            <Typography>{id}</Typography>
+            <Typography variant="subtitle1">{_.upperFirst(name)}</Typography>
           </Box>
           <PokemonType
             types={types}

@@ -1,4 +1,3 @@
-import { SvgIconComponent } from "@mui/icons-material";
 import {
   InputAdornment,
   TextField as MuiTextField,
@@ -6,26 +5,36 @@ import {
   Theme,
 } from "@mui/material";
 import { ReactNode } from "react";
+import { FieldValues, useForm, UseFormRegister } from "react-hook-form";
 
 type Props = {
+  name: string;
+  register: UseFormRegister<any>;
   variant?: "filled" | "outlined" | "standard";
   size?: "small" | "medium";
   sx?: SxProps<Theme>;
   placeholder?: string;
   icon?: ReactNode;
   positionIcon?: "start" | "end";
+  error?: boolean;
+  helperText?: ReactNode;
 };
 
 export const TextField = ({
+  name,
+  register,
   variant,
   size,
   sx,
   placeholder,
   icon,
   positionIcon,
+  error,
+  helperText,
 }: Props) => {
   return (
     <MuiTextField
+      {...register(name)}
       variant={variant}
       size={size}
       sx={sx}
@@ -39,6 +48,8 @@ export const TextField = ({
           ),
         },
       }}
+      error={error}
+      helperText={helperText}
     />
   );
 };

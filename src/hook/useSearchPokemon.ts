@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { pokemon_api } from "../config/api";
 import { PokemonDetailModel } from "../model/PokemonDetailModel";
+import { usePokemonStore } from "../store/PokemonStore";
 
 export const useSearchPokemon = () => {
-  const [keyword, setKeyword] = useState("");
+  const {
+    query: { keyword },
+  } = usePokemonStore();
 
-  const { isLoading, data, error, isError } = useQuery<PokemonDetailModel>({
+  const { isFetching, data, error, isError } = useQuery<PokemonDetailModel>({
     queryKey: ["getPokemon", keyword],
     queryFn: async () => {
       const res = await fetch(`${pokemon_api}/${keyword}`);
@@ -15,9 +17,5 @@ export const useSearchPokemon = () => {
     enabled: keyword.trim().length > 0,
   });
 
-  const handleSearch = (keyword: string) => {
-    setKeyword(keyword);
-  };
-
-  return { isLoading, data, error, handleSearch, isError };
+  return { isFetching, data, error, isError };
 };
