@@ -1,4 +1,5 @@
 import { Box, SxProps, Theme, Typography } from "@mui/material";
+import _ from "lodash";
 import { Colors } from "../../constants/Colors";
 import { Type } from "../../model/PokemonDetailModel";
 
@@ -17,12 +18,11 @@ export const PokemonType = ({ types, sx }: Props) => {
           height={22}
           borderRadius={1}
           sx={{
-            // padding: "2px 4px",
             backgroundColor: Colors[type.type.name as keyof typeof Colors],
           }}
         >
-          <Typography variant="body2" textAlign="center" color="white">
-            {type.type.name}
+          <Typography variant="body1" textAlign="center" color="white">
+            {_.upperFirst(type.type.name)}
           </Typography>
         </Box>
       ))}

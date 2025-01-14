@@ -9,7 +9,6 @@ export const AppBar = () => {
           <Box sx={{ flexGrow: 1 }}>
             <img src={pokeball} alt="Pokeball" width={40} />
           </Box>
-          {/* <Person fontSize="large" /> */}
         </Toolbar>
       </MuiAppBar>
     </Box>

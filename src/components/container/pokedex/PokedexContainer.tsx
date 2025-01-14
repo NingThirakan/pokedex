@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import _ from "lodash";
 import { useEffect } from "react";
 import { useGetAllPokemon } from "../../../hook/useGetAllPokemon";
@@ -9,18 +10,20 @@ import { Container } from "../../common/Container";
 import { Loading } from "../../common/Loading";
 import { PokemonContainer } from "../pokemon/PokemonContainer";
 import { Criteria } from "./Criteria";
-import { PokedexCard } from "./PokedexCard";
+import { PokemonCard } from "../pokemon/PokemonCard";
 
 export const PokedexContainer = () => {
   const {
     pokemonList,
     isViewDetail,
     pokemonId,
+    enableGetAll,
     onChangePokemonList,
     onChangeIsViewDetail,
     onGoBack,
     onChangeKeyword,
     onChangeEnableGetAll,
+    onLoadMore,
   } = usePokemonStore();
 
   const { data, isFetching: isFetchingGetAllPokemon } = useGetAllPokemon();
@@ -56,12 +59,17 @@ export const PokedexContainer = () => {
       />
       <BoxContainer>
         {_.map(pokemonList, (pokemon) => (
-          <PokedexCard
+          <PokemonCard
             key={pokemon.id}
             pokemon={pokemon}
             onClick={onChangeIsViewDetail}
           />
         ))}
+        {enableGetAll && (
+          <Button onClick={onLoadMore} sx={{ mt: 1 }}>
+            Load more
+          </Button>
+        )}
       </BoxContainer>
     </Container>
   );

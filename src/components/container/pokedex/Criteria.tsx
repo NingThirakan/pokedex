@@ -31,8 +31,7 @@ export const Criteria = ({
 
   const onSearch = handleSubmit((data) => {
     onChangeEnableGetAll(false);
-    const keyword = _.lowerCase(String(data.keyword));
-    onChangeKeyword(keyword);
+    onChangeKeyword(data.keyword);
   });
 
   useEffect(() => {

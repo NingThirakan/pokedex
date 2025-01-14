@@ -1,6 +1,7 @@
+import _ from "lodash";
 import { create } from "zustand";
-import { PokemonDetailModel } from "../model/PokemonDetailModel";
 import { SearchPokemonReq } from "../@types";
+import { PokemonDetailModel } from "../model/PokemonDetailModel";
 
 type PokemonState = {
   query: SearchPokemonReq;
@@ -15,6 +16,7 @@ type PokemonState = {
   onGoBack: () => void;
   onChangeKeyword: (keyword: string) => void;
   onChangeEnableGetAll: (value: boolean) => void;
+  onLoadMore: () => void;
 };
 
 export const usePokemonStore = create<PokemonState>((set) => ({
@@ -40,10 +42,17 @@ export const usePokemonStore = create<PokemonState>((set) => ({
   },
   onChangeKeyword(keyword) {
     set((state) => {
-      return { query: { ...state.query, keyword } };
+      return {
+        query: { ...state.query, keyword: _.lowerCase(keyword) },
+      };
     });
   },
   onChangeEnableGetAll(value) {
     set({ enableGetAll: value });
+  },
+  onLoadMore() {
+    set((state) => {
+      return { query: { ...state.query, limit: state.query.limit + 20 } };
+    });
   },
 }));
