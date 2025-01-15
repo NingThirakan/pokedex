@@ -21,7 +21,7 @@ export const PokemonType = ({ types, sx }: Props) => {
             backgroundColor: Colors[type.type.name as keyof typeof Colors],
           }}
         >
-          <Typography variant="body1" textAlign="center" color="white">
+          <Typography variant="subtitle2" textAlign="center" color="white">
             {_.upperFirst(type.type.name)}
           </Typography>
         </Box>

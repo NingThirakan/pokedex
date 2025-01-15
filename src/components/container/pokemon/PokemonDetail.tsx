@@ -3,6 +3,8 @@ import _ from "lodash";
 import { PokemonDetailModel } from "../../../model/PokemonDetailModel";
 import { PokemonType } from "../../common/PokemonType";
 import { TextContent } from "./TextContent";
+import { State } from "./State";
+import { Stats } from "../../../constants/Stats";
 
 type Props = {
   pokemon: PokemonDetailModel;
@@ -10,7 +12,7 @@ type Props = {
 
 export const PokemonDetail = ({ pokemon }: Props) => {
   return (
-    <Box>
+    <>
       <Typography variant="h6" textAlign="center">
         Pokémon data
       </Typography>
@@ -28,12 +30,22 @@ export const PokemonDetail = ({ pokemon }: Props) => {
           />
         }
       />
-      <TextContent
-        label="Species"
-        value={`${_.upperFirst(pokemon.species.name)} Pokémon`}
-      />
       <TextContent label="Height" value={`${pokemon.height} dm`} />
       <TextContent label="Weight" value={`${pokemon.weight} hg`} />
-    </Box>
+      <TextContent label="Base Exp" value={`${pokemon.base_experience} hg`} />
+      <TextContent
+        label="Stats"
+        component={
+          <Box display="flex" gap={1} justifyContent="center" width="280px">
+            {pokemon.stats.map((stat) => (
+              <State
+                label={Stats[stat.stat.name as keyof typeof Stats]}
+                value={stat.base_stat}
+              />
+            ))}
+          </Box>
+        }
+      />
+    </>
   );
 };

@@ -36,6 +36,7 @@ export const theme = createTheme({
         {
           props: { variant: "body1" },
           style: {
+            textTransform: "uppercase",
             fontWeight: 600,
             fontSize: 14,
           },

@@ -24,4 +24,10 @@ export const Colors = {
   steel: "#AAAABB",
   fairy: "#EE99EE",
   background: "#F2F2F2",
+  HP: "#DF2140",
+  ATK: "#FA9963",
+  DEF: "#FEDC61",
+  SpA: "#85DDFF",
+  SpD: "#A8EF95",
+  SPD: "#FB94A8",
 };
