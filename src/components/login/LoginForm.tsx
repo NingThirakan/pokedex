@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { LoginSchema } from "../../schema/LoginSchema";
 import { useUserProfile } from "../../store/UserProfileStore";
