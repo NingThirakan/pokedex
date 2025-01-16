@@ -1,16 +1,11 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Search } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
-import _ from "lodash";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
-import {
-  SearchPokemonSchema,
-  searchPokemonSchema,
-} from "../../schema/SearchPokemonSchema";
-import { TextField } from "../common/TextField";
+import { useFormContext } from "react-hook-form";
 import { Colors } from "../../constants/Colors";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { SearchPokemonSchema } from "../../schema/SearchPokemonSchema";
+import { FormTextField } from "../common/FormTextField";
 
 type Props = {
   pokemon: PokemonDetailModel | undefined;
@@ -25,14 +20,11 @@ export const Criteria = ({
   onChangeKeyword,
   onChangeEnableGetAll,
 }: Props) => {
-  const { register, handleSubmit } = useForm<SearchPokemonSchema>({
-    defaultValues: { keyword: "" },
-    resolver: zodResolver(searchPokemonSchema),
-  });
+  const { handleSubmit } = useFormContext<SearchPokemonSchema>();
 
-  const onSearch = handleSubmit((data) => {
+  const onSearch = handleSubmit((formData) => {
     onChangeEnableGetAll(false);
-    onChangeKeyword(data.keyword);
+    onChangeKeyword(formData.keyword);
   });
 
   useEffect(() => {
@@ -51,9 +43,8 @@ export const Criteria = ({
       </Typography>
 
       <Box display="flex" justifyContent="center" pt={1} gap={1}>
-        <TextField
+        <FormTextField
           name="keyword"
-          register={register}
           placeholder="Name or number"
           icon={<Search color="secondary" />}
           sx={{

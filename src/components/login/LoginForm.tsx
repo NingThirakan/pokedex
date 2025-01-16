@@ -1,28 +1,17 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { loginSchema, LoginSchema } from "../../schema/LoginSchema";
+import { useFormContext } from "react-hook-form";
+import { LoginSchema } from "../../schema/LoginSchema";
 import { useUserProfile } from "../../store/UserProfileStore";
+import { FormTextField } from "../common/FormTextField";
 
 export const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginSchema>({
-    defaultValues: { email: "", password: "" },
-    resolver: zodResolver(loginSchema),
-  });
-
-  useEffect(() => {
-    console.log("errors", errors);
-  }, []);
+  const { handleSubmit } = useFormContext<LoginSchema>();
 
   const { onChangeUserProfile } = useUserProfile();
 
-  const onSubmit = handleSubmit((data) => {
-    onChangeUserProfile({ email: data.email });
+  const onSubmit = handleSubmit((formData) => {
+    onChangeUserProfile({ email: formData.email });
   });
 
   return (
@@ -32,8 +21,8 @@ export const LoginForm = () => {
       </Typography>
 
       <Box gap={2} display="flex" flexDirection="column" px={2} pt={2}>
-        <TextField {...register("email")} label="Email" />
-        <TextField {...register("password")} label="Password" />
+        <FormTextField name="email" label="Email" />
+        <FormTextField name="password" label="Password" type="password" />
         <Button onClick={onSubmit}>Login</Button>
       </Box>
     </Box>
