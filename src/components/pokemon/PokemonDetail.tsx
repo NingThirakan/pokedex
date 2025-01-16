@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import _ from "lodash";
-import { PokemonDetailModel } from "../../../model/PokemonDetailModel";
-import { PokemonType } from "../../common/PokemonType";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { PokemonType } from "../common/PokemonType";
 import { TextContent } from "./TextContent";
 import { State } from "./State";
-import { Stats } from "../../../constants/Stats";
+import { Stats } from "../../constants/Stats";
 
 type Props = {
   pokemon: PokemonDetailModel;

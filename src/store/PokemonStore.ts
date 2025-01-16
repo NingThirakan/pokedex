@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { create } from "zustand";
-import { SearchPokemonReq } from "../@types";
+import { SearchPokemonReq } from "../@types/PokemonType";
 import { PokemonDetailModel } from "../model/PokemonDetailModel";
 
 type PokemonState = {

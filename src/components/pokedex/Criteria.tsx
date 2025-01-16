@@ -4,12 +4,13 @@ import { Box, Button, Typography } from "@mui/material";
 import _ from "lodash";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { PokemonDetailModel } from "../../../model/PokemonDetailModel";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import {
   SearchPokemonSchema,
   searchPokemonSchema,
-} from "../../../schema/SearchPokemonSchema";
-import { TextField } from "../../common/TextField";
+} from "../../schema/SearchPokemonSchema";
+import { TextField } from "../common/TextField";
+import { Colors } from "../../constants/Colors";
 
 type Props = {
   pokemon: PokemonDetailModel | undefined;
@@ -55,7 +56,11 @@ export const Criteria = ({
           register={register}
           placeholder="Name or number"
           icon={<Search color="secondary" />}
-          sx={{ width: 500 }}
+          sx={{
+            width: 500,
+            backgroundColor: Colors.textFieldBackgroundColor,
+            color: Colors.placeholderColor,
+          }}
         />
         <Button onClick={onSearch}>Search</Button>
       </Box>

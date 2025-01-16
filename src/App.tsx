@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AppBar } from "./components/common/AppBar";
-import { PokedexContainer } from "./components/container/pokedex/PokedexContainer";
+import { LoginContainer } from "./container/login/LoginContainer";
+import { PokedexContainer } from "./container/pokedex/PokedexContainer";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <AppBar />
       <Routes>
         <Route path="/" element={<PokedexContainer />} />
+        <Route path="/login" element={<LoginContainer />} />
       </Routes>
     </BrowserRouter>
   );

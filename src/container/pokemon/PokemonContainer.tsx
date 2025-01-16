@@ -1,11 +1,11 @@
 import { Box, Grid2 as Grid } from "@mui/material";
-import { Colors } from "../../../constants/Colors";
-import { PokemonDetailModel } from "../../../model/PokemonDetailModel";
-import { hexToRgb } from "../../../utils";
-import { BoxContainer } from "../../common/BoxContainer";
-import { Container } from "../../common/Container";
-import { GoBackButton } from "../../common/GoBackButton";
-import { PokemonDetail } from "./PokemonDetail";
+import { Colors } from "../../constants/Colors";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { hexToRgb } from "../../utils";
+import { BoxContainer } from "../../components/common/BoxContainer";
+import { Container } from "../../components/common/Container";
+import { GoBackButton } from "../../components/common/GoBackButton";
+import { PokemonDetail } from "../../components/pokemon/PokemonDetail";
 
 type Props = {
   pokemon: PokemonDetailModel;

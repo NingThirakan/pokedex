@@ -62,12 +62,6 @@ export const theme = createTheme({
         variant: "outlined",
         size: "small",
       },
-      styleOverrides: {
-        root: {
-          backgroundColor: Colors.textFieldBackgroundColor,
-          color: Colors.placeholderColor,
-        },
-      },
     },
     MuiButton: {
       defaultProps: {

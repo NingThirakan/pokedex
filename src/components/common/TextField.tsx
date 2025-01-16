@@ -18,6 +18,7 @@ type Props = {
   positionIcon?: "start" | "end";
   error?: boolean;
   helperText?: ReactNode;
+  label?: ReactNode;
 };
 
 export const TextField = ({
@@ -31,11 +32,13 @@ export const TextField = ({
   positionIcon,
   error,
   helperText,
+  label,
 }: Props) => {
   return (
     <MuiTextField
       {...register(name)}
       variant={variant}
+      label={label}
       size={size}
       sx={sx}
       placeholder={placeholder}

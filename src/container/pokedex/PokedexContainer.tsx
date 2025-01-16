@@ -1,18 +1,21 @@
 import { Button } from "@mui/material";
 import _ from "lodash";
 import { useEffect } from "react";
-import { useGetAllPokemon } from "../../../hook/useGetAllPokemon";
-import { useSearchPokemon } from "../../../hook/useSearchPokemon";
-import { PokemonDetailModel } from "../../../model/PokemonDetailModel";
-import { usePokemonStore } from "../../../store/PokemonStore";
-import { BoxContainer } from "../../common/BoxContainer";
-import { Container } from "../../common/Container";
-import { Loading } from "../../common/Loading";
+import { useGetAllPokemon } from "../../hook/useGetAllPokemon";
+import { useSearchPokemon } from "../../hook/useSearchPokemon";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { usePokemonStore } from "../../store/PokemonStore";
+import { BoxContainer } from "../../components/common/BoxContainer";
+import { Container } from "../../components/common/Container";
+import { Loading } from "../../components/common/Loading";
 import { PokemonContainer } from "../pokemon/PokemonContainer";
-import { Criteria } from "./Criteria";
-import { PokemonCard } from "../pokemon/PokemonCard";
+import { Criteria } from "../../components/pokedex/Criteria";
+import { PokemonCard } from "../../components/pokemon/PokemonCard";
+import { useUserProfile } from "../../store/UserProfileStore";
+import { useNavigate } from "react-router-dom";
 
 export const PokedexContainer = () => {
+  const { userProfile } = useUserProfile();
   const {
     pokemonList,
     isViewDetail,
@@ -26,10 +29,16 @@ export const PokedexContainer = () => {
     onLoadMore,
   } = usePokemonStore();
 
+  const navigate = useNavigate();
+
   const { data, isFetching: isFetchingGetAllPokemon } = useGetAllPokemon();
 
   const { data: pokemon, isFetching: isisFetchingSearchPokemon } =
     useSearchPokemon();
+
+  useEffect(() => {
+    if (!userProfile) navigate("/login");
+  }, [userProfile]);
 
   useEffect(() => {
     if (data?.pokemonList) {

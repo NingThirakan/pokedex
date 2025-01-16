@@ -1,4 +1,4 @@
-import { SearchPokemonReq } from "../@types";
+import { SearchPokemonReq } from "../@types/PokemonType";
 import { pokemon_api } from "../config/api";
 import { PokemonDetailModel } from "../model/PokemonDetailModel";
 import { PokedexModel, PokemonModel } from "../model/PokemonModel";

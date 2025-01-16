@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { Colors } from "../../../constants/Colors";
+import { Colors } from "../../constants/Colors";
 
 type Props = {
   label: string;

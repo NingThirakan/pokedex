@@ -7,10 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import _ from "lodash";
-import { Colors } from "../../../constants/Colors";
-import { PokemonDetailModel } from "../../../model/PokemonDetailModel";
-import { hexToRgb } from "../../../utils";
-import { PokemonType } from "../../common/PokemonType";
+import { Colors } from "../../constants/Colors";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { hexToRgb } from "../../utils";
+import { PokemonType } from "../common/PokemonType";
 
 type Props = {
   pokemon: PokemonDetailModel;
