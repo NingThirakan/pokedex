@@ -23,6 +23,7 @@ import { PokemonContainer } from "../pokemon/PokemonContainer";
 export const PokedexContainer = () => {
   const { userProfile } = useUserProfile();
   const {
+    query,
     pokemonList,
     isViewDetail,
     pokemonId,
@@ -33,15 +34,16 @@ export const PokedexContainer = () => {
     onChangeKeyword,
     onChangeEnableGetAll,
     onLoadMore,
+    onAddDetail,
   } = usePokemonStore();
 
   const navigate = useNavigate();
 
   const { data: allPokemonData, isFetching: isFetchingGetAllPokemon } =
-    useGetAllPokemon();
+    useGetAllPokemon({ ...query });
 
   const { data: pokemon, isFetching: isisFetchingSearchPokemon } =
-    useSearchPokemon();
+    useSearchPokemon(query.keyword ?? "");
 
   const searchForm = useForm<SearchPokemonSchema>({
     defaultValues: { keyword: "" },
@@ -68,7 +70,13 @@ export const PokedexContainer = () => {
       id: pokemonId,
     }) as PokemonDetailModel;
 
-    return <PokemonContainer pokemon={pokemon} onGoBack={onGoBack} />;
+    return (
+      <PokemonContainer
+        pokemon={pokemon}
+        onGoBack={onGoBack}
+        onAdd={onAddDetail}
+      />
+    );
   }
 
   return (

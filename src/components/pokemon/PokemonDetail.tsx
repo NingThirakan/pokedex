@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import _ from "lodash";
+import { Stats } from "../../constants/Stats";
 import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import { PokemonType } from "../common/PokemonType";
+import { Stat } from "./Stat";
 import { TextContent } from "./TextContent";
-import { State } from "./State";
-import { Stats } from "../../constants/Stats";
 
 type Props = {
   pokemon: PokemonDetailModel;
@@ -38,7 +37,8 @@ export const PokemonDetail = ({ pokemon }: Props) => {
         component={
           <Box display="flex" gap={1} justifyContent="center" width="280px">
             {pokemon.stats.map((stat) => (
-              <State
+              <Stat
+                key={stat.stat.name}
                 label={Stats[stat.stat.name as keyof typeof Stats]}
                 value={stat.base_stat}
               />
@@ -46,6 +46,8 @@ export const PokemonDetail = ({ pokemon }: Props) => {
           </Box>
         }
       />
+
+      <TextContent label="Detail" value={pokemon.detail} />
     </>
   );
 };

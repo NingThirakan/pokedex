@@ -10,7 +10,7 @@ type Props = {
 
 export const TextContent = ({ label, value, component }: Props) => {
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} pt={1}>
       <Grid size={3}>
         <Typography variant="subtitle2">{_.toUpper(label)}</Typography>
       </Grid>

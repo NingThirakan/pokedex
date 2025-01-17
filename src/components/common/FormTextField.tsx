@@ -12,6 +12,8 @@ type Props = {
   icon?: ReactNode;
   positionIcon?: "start" | "end";
   label?: ReactNode;
+  multiline?: boolean;
+  rows?: number;
 };
 
 export const FormTextField = ({
@@ -24,6 +26,8 @@ export const FormTextField = ({
   icon,
   positionIcon,
   label,
+  multiline,
+  rows,
 }: Props) => {
   const {
     control,
@@ -45,6 +49,8 @@ export const FormTextField = ({
           size={size}
           sx={sx}
           placeholder={placeholder}
+          multiline={multiline}
+          rows={rows}
           slotProps={{
             input: {
               startAdornment: (

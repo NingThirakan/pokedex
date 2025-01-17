@@ -1,10 +1,11 @@
 import _ from "lodash";
 import { create } from "zustand";
-import { SearchPokemonReq } from "../@types/PokemonType";
+import { GetPokemonReq } from "../@types/PokemonType";
 import { PokemonDetailModel } from "../model/PokemonDetailModel";
+import { PokemonDetailSchema } from "../schema/PokemonDetailSchema";
 
 type PokemonState = {
-  query: SearchPokemonReq;
+  query: GetPokemonReq;
   pokemonList: PokemonDetailModel[];
   isViewDetail: boolean;
   pokemonId: number | null;
@@ -17,6 +18,7 @@ type PokemonState = {
   onChangeKeyword: (keyword: string) => void;
   onChangeEnableGetAll: (value: boolean) => void;
   onLoadMore: () => void;
+  onAddDetail: (formData: PokemonDetailSchema) => void;
 };
 
 export const usePokemonStore = create<PokemonState>((set) => ({
@@ -52,7 +54,18 @@ export const usePokemonStore = create<PokemonState>((set) => ({
   },
   onLoadMore() {
     set((state) => {
-      return { query: { ...state.query, limit: state.query.limit + 20 } };
+      return { query: { ...state.query, limit: state.query.limit! + 20 } };
+    });
+  },
+  onAddDetail(formData) {
+    set((state) => {
+      return {
+        pokemonList: state.pokemonList.map((pokemon) =>
+          pokemon.name === formData.name
+            ? { ...pokemon, detail: formData.detail }
+            : pokemon
+        ),
+      };
     });
   },
 }));

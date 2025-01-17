@@ -1,14 +1,13 @@
-import { SearchPokemonReq } from "../@types/PokemonType";
+import { GetPokemonReq } from "../@types/PokemonType";
 import { pokemon_api } from "../config/api";
 import { PokemonDetailModel } from "../model/PokemonDetailModel";
-import { PokemonEffectModel } from "../model/PokemonEffectModel";
 import { PokedexModel, PokemonModel } from "../model/PokemonModel";
 
 export class PokemonService {
   public static async getAllPokemon({
     offset,
     limit,
-  }: SearchPokemonReq): Promise<PokemonModel> {
+  }: GetPokemonReq): Promise<PokemonModel> {
     const resPokedex = await fetch(
       `${pokemon_api}/pokemon?offset=${offset}&limit=${limit}`
     );
@@ -16,8 +15,13 @@ export class PokemonService {
 
     const pokemons: PokemonDetailModel[] = await Promise.all(
       pokedex.results.map(async (item) => {
-        const res = await fetch(`${pokemon_api}/pokemon/${item.name}`);
-        return res.json();
+        try {
+          const res = await fetch(`${pokemon_api}/pokemon/${item.name}`);
+          return res.json();
+        } catch (error) {
+          const err = error as Error;
+          throw new Error(err.message);
+        }
       })
     );
 
@@ -29,8 +33,13 @@ export class PokemonService {
 
   public static async searchPokemon({
     keyword,
-  }: SearchPokemonReq): Promise<PokemonDetailModel> {
-    const res = await fetch(`${pokemon_api}/pokemon/${keyword}`);
-    return await res.json();
+  }: GetPokemonReq): Promise<PokemonDetailModel> {
+    try {
+      const res = await fetch(`${pokemon_api}/pokemon/${keyword}`);
+      return await res.json();
+    } catch (error) {
+      const err = error as Error;
+      throw new Error(err.message);
+    }
   }
 }

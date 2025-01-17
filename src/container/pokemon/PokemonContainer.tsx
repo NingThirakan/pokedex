@@ -1,4 +1,4 @@
-import { Box, Grid2 as Grid } from "@mui/material";
+import { Box, Button, Grid2 as Grid } from "@mui/material";
 import { Colors } from "../../constants/Colors";
 import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import { hexToRgb } from "../../utils";
@@ -6,19 +6,56 @@ import { BoxContainer } from "../../components/common/BoxContainer";
 import { Container } from "../../components/common/Container";
 import { GoBackButton } from "../../components/common/GoBackButton";
 import { PokemonDetail } from "../../components/pokemon/PokemonDetail";
+import { useCallback, useEffect, useState } from "react";
+import { Form } from "../../components/pokemon/Form";
+import {
+  pokemonDetailSchema,
+  PokemonDetailSchema,
+} from "../../schema/PokemonDetailSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
 
 type Props = {
   pokemon: PokemonDetailModel;
   onGoBack: () => void;
+  onAdd: (formData: PokemonDetailSchema) => void;
 };
 
-export const PokemonContainer = ({ pokemon, onGoBack }: Props) => {
+export const PokemonContainer = ({ pokemon, onGoBack, onAdd }: Props) => {
+  const [open, setOpen] = useState(false);
+
+  const form = useForm<PokemonDetailSchema>({
+    defaultValues: { name: "", detail: "" },
+    resolver: zodResolver(pokemonDetailSchema),
+    mode: "all",
+  });
+
   const { name, sprites, types } = pokemon;
   const image = sprites.other["official-artwork"].front_default;
 
+  const onClickAdd = useCallback(() => {
+    setOpen(true);
+  }, [open, setOpen]);
+
+  if (open) {
+    return (
+      <FormProvider {...form}>
+        <Form
+          name={pokemon.name}
+          open={open}
+          onClose={() => setOpen(false)}
+          onAdd={onAdd}
+        />
+      </FormProvider>
+    );
+  }
+
   return (
     <Container>
-      <GoBackButton onClick={onGoBack} />
+      <Box display="flex" justifyContent="space-between">
+        <GoBackButton onClick={onGoBack} />
+        <Button onClick={onClickAdd}>Add detail</Button>
+      </Box>
 
       <BoxContainer px={2} py={2}>
         <Grid container spacing={2} width="100%">

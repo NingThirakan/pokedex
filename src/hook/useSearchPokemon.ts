@@ -1,13 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { PokemonDetailModel } from "../model/PokemonDetailModel";
 import { PokemonService } from "../service/PokemonService";
-import { usePokemonStore } from "../store/PokemonStore";
 
-export const useSearchPokemon = () => {
-  const {
-    query: { keyword },
-  } = usePokemonStore();
-
+export const useSearchPokemon = (keyword: string) => {
   const { isFetching, data, error, isError } = useQuery<PokemonDetailModel>({
     queryKey: ["getPokemon", keyword],
     queryFn: () =>

@@ -1,25 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { pokemon_api } from "../config/api";
-import { PokemonDetailModel } from "../model/PokemonDetailModel";
-import { PokedexModel, PokemonModel } from "../model/PokemonModel";
-import { usePokemonStore } from "../store/PokemonStore";
+import { GetPokemonReq } from "../@types/PokemonType";
+import { PokemonModel } from "../model/PokemonModel";
 import { PokemonService } from "../service/PokemonService";
 
-export const useGetAllPokemon = () => {
-  const {
-    enableGetAll,
-    query: { offset, limit },
-  } = usePokemonStore();
-
+// refactor use param แทนการเรียกจาก store เพราะดารทำ custom hook คือไม่ต้องการผูกให้อยู่ภายใต้อะไร
+export const useGetAllPokemon = ({ offset, limit, enabled }: GetPokemonReq) => {
   const { isFetching, data } = useQuery<PokemonModel>({
     queryKey: ["getAllPokemon", offset, limit],
     queryFn: () =>
       PokemonService.getAllPokemon({
-        keyword: "",
         offset: offset,
         limit: limit,
       }),
-    enabled: enableGetAll,
+    enabled: enabled,
     staleTime: 1000 * 60,
     // cacheTime: 1000 * 60 * 5, // เก็บข้อมูลใน cache 5 นาที
   });

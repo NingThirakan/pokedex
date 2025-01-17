@@ -19,6 +19,7 @@ export type PokemonDetailModel = {
   stats: Stat[];
   types: Type[];
   weight: number;
+  detail?: string;
 };
 
 export type Ability = {

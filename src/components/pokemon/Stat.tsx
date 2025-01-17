@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
 import { Colors } from "../../constants/Colors";
 
 type Props = {
@@ -7,7 +6,7 @@ type Props = {
   value: number;
 };
 
-export const State = ({ label, value }: Props) => {
+export const Stat = ({ label, value }: Props) => {
   return (
     <Box
       display="flex"

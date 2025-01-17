@@ -1,5 +1,6 @@
-export type SearchPokemonReq = {
-  keyword: string;
-  offset: number;
-  limit: number;
+export type GetPokemonReq = {
+  keyword?: string;
+  offset?: number;
+  limit?: number;
+  enabled?: boolean;
 };
