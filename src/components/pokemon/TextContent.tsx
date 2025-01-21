@@ -1,12 +1,8 @@
 import { Grid2 as Grid, Typography } from "@mui/material";
 import _ from "lodash";
-import { ReactNode } from "react";
+import { TextContentType } from "../../@types/TextContent";
 
-type Props = {
-  label: string;
-  value?: string | number;
-  component?: ReactNode;
-};
+type Props = TextContentType;
 
 export const TextContent = ({ label, value, component }: Props) => {
   return (

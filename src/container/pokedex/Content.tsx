@@ -3,18 +3,19 @@ import _ from "lodash";
 import { PokemonCard } from "../../components/pokemon/PokemonCard";
 import { Colors } from "../../constants/Colors";
 import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { PageType } from "../../constants/PageType";
 
 type Props = {
   pokemonList: PokemonDetailModel[];
   isShowLoadMore: boolean;
-  onChangeIsViewDetail: (id: number) => void;
+  onChangePageType: (pageType: PageType, id: number) => void;
   onLoadMore: () => void;
 };
 
 export const Content = ({
   pokemonList,
   isShowLoadMore,
-  onChangeIsViewDetail,
+  onChangePageType,
   onLoadMore,
 }: Props) => {
   return (
@@ -22,7 +23,7 @@ export const Content = ({
       container
       spacing={2}
       justifyContent="center"
-      py={4}
+      p={4}
       mt={2}
       border={`1px solid ${Colors.primary}`}
       borderRadius={2}
@@ -32,7 +33,10 @@ export const Content = ({
     >
       {_.map(pokemonList, (pokemon) => (
         <Grid key={pokemon.id}>
-          <PokemonCard pokemon={pokemon} onClick={onChangeIsViewDetail} />
+          <PokemonCard
+            pokemon={pokemon}
+            onClick={() => onChangePageType(PageType.ViewDetail, pokemon.id)}
+          />
         </Grid>
       ))}
 

@@ -1,19 +1,18 @@
-import { Box, Button, Grid2 as Grid, Modal } from "@mui/material";
-import { Colors } from "../../constants/Colors";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
-import { hexToRgb } from "../../utils";
-import { BoxContainer } from "../../components/common/BoxContainer";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Button, Grid2 as Grid } from "@mui/material";
+import { useCallback, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { Container } from "../../components/common/Container";
 import { GoBackButton } from "../../components/common/GoBackButton";
-import { PokemonDetail } from "../../components/pokemon/PokemonDetail";
-import { useCallback, useEffect, useState } from "react";
 import { Form } from "../../components/pokemon/Form";
+import { PokemonDetail } from "../../components/pokemon/PokemonDetail";
+import { Colors } from "../../constants/Colors";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import {
   pokemonDetailSchema,
   PokemonDetailSchema,
 } from "../../schema/PokemonDetailSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { hexToRgb } from "../../utils";
 
 type Props = {
   pokemon: PokemonDetailModel;
@@ -64,7 +63,21 @@ export const PokemonContainer = ({ pokemon, onGoBack, onAdd }: Props) => {
         <Button onClick={onClickAdd}>Add detail</Button>
       </Box>
 
-      <BoxContainer px={2} py={2}>
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        justifyContent="center"
+        gap={2}
+        mt={3}
+        border={`1px solid ${Colors.primary}`}
+        borderRadius={2}
+        py={4}
+        px={1}
+        width={1500}
+        sx={{
+          backgroundColor: Colors.background,
+        }}
+      >
         <Grid container spacing={2} width="100%">
           <Grid size={4}>
             <Box
@@ -81,7 +94,7 @@ export const PokemonContainer = ({ pokemon, onGoBack, onAdd }: Props) => {
             <PokemonDetail pokemon={pokemon} />
           </Grid>
         </Grid>
-      </BoxContainer>
+      </Box>
     </Container>
   );
 };

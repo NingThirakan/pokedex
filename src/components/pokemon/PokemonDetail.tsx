@@ -4,22 +4,33 @@ import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import { PokemonType } from "../common/PokemonType";
 import { Stat } from "./Stat";
 import { TextContent } from "./TextContent";
+import { useMemo } from "react";
+import { TextContentType } from "../../@types/TextContent";
 
 type Props = {
   pokemon: PokemonDetailModel;
 };
 
 export const PokemonDetail = ({ pokemon }: Props) => {
-  return (
-    <>
-      <Typography variant="h6" textAlign="center">
-        Pokémon data
-      </Typography>
+  const renderPokemonStat = useMemo(() => {
+    return pokemon.stats.map((stat) => (
+      <Stat
+        key={stat.stat.name}
+        label={Stats[stat.stat.name as keyof typeof Stats]}
+        value={stat.base_stat}
+      />
+    ));
+  }, [pokemon.stats]);
 
-      <TextContent label="National No" value={pokemon.id} />
-      <TextContent
-        label="Type"
-        component={
+  const content: TextContentType[] = useMemo(() => {
+    return [
+      {
+        label: "National No",
+        value: pokemon.id,
+      },
+      {
+        label: "Type",
+        component: (
           <PokemonType
             types={pokemon.types}
             sx={{
@@ -27,28 +38,49 @@ export const PokemonDetail = ({ pokemon }: Props) => {
               justifyContent: "flex-start",
             }}
           />
-        }
-      />
-      <TextContent label="Height" value={`${pokemon.height} dm`} />
-      <TextContent label="Weight" value={`${pokemon.weight} hg`} />
-      <TextContent label="Base Exp" value={`${pokemon.base_experience} hg`} />
-      <TextContent
-        label="Stats"
-        component={
+        ),
+      },
+      {
+        label: "Height",
+        value: `${pokemon.height} Gram`,
+      },
+      {
+        label: "Weight",
+        value: `${pokemon.weight} KG`,
+      },
+      {
+        label: "Base Exp",
+        value: `${pokemon.base_experience}`,
+      },
+      {
+        label: "Stats",
+        component: (
           <Box display="flex" gap={1} justifyContent="center" width="280px">
-            {/* useMemo */}
-            {pokemon.stats.map((stat) => (
-              <Stat
-                key={stat.stat.name}
-                label={Stats[stat.stat.name as keyof typeof Stats]}
-                value={stat.base_stat}
-              />
-            ))}
+            {renderPokemonStat}
           </Box>
-        }
-      />
+        ),
+      },
+      {
+        label: "Detail",
+        value: pokemon.detail,
+      },
+    ];
+  }, [pokemon]);
 
-      <TextContent label="Detail" value={pokemon.detail} />
+  return (
+    <>
+      <Typography variant="h6" textAlign="center">
+        Pokémon Data
+      </Typography>
+
+      {content.map((item) => (
+        <TextContent
+          key={item.label}
+          label={item.label}
+          value={item.value}
+          component={item.component}
+        />
+      ))}
     </>
   );
 };
