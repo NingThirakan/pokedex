@@ -2,6 +2,7 @@ import { Box, Button, Modal } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { PokemonDetailSchema } from "../../schema/PokemonDetailSchema";
 import { FormTextField } from "../common/FormTextField";
+import { useCallback } from "react";
 
 type Props = {
   name: string;
@@ -13,10 +14,12 @@ type Props = {
 export const Form = ({ name, open, onClose, onAdd }: Props) => {
   const { handleSubmit, setValue } = useFormContext<PokemonDetailSchema>();
 
-  const onSubmit = handleSubmit((formData) => {
-    onClose();
-    onAdd(formData);
-  });
+  const onSubmit = useCallback(() => {
+    handleSubmit((formData) => {
+      onClose();
+      onAdd(formData);
+    });
+  }, [handleSubmit, onClose, onAdd]);
 
   return (
     <Modal open={open} onClose={onClose}>

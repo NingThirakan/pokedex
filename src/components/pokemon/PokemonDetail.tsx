@@ -36,6 +36,7 @@ export const PokemonDetail = ({ pokemon }: Props) => {
         label="Stats"
         component={
           <Box display="flex" gap={1} justifyContent="center" width="280px">
+            {/* useMemo */}
             {pokemon.stats.map((stat) => (
               <Stat
                 key={stat.stat.name}

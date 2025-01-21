@@ -1,4 +1,4 @@
-import { Box, Button, Grid2 as Grid } from "@mui/material";
+import { Box, Button, Grid2 as Grid, Modal } from "@mui/material";
 import { Colors } from "../../constants/Colors";
 import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import { hexToRgb } from "../../utils";
@@ -40,12 +40,19 @@ export const PokemonContainer = ({ pokemon, onGoBack, onAdd }: Props) => {
   if (open) {
     return (
       <FormProvider {...form}>
+        {/* <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        > */}
         <Form
           name={pokemon.name}
           open={open}
           onClose={() => setOpen(false)}
           onAdd={onAdd}
         />
+        {/* </Modal> */}
       </FormProvider>
     );
   }

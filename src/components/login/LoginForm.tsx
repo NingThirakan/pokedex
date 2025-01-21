@@ -3,15 +3,18 @@ import { useFormContext } from "react-hook-form";
 import { LoginSchema } from "../../schema/LoginSchema";
 import { useUserProfile } from "../../store/UserProfileStore";
 import { FormTextField } from "../common/FormTextField";
+import { useCallback } from "react";
 
 export const LoginForm = () => {
   const { handleSubmit } = useFormContext<LoginSchema>();
 
   const { onChangeUserProfile } = useUserProfile();
 
-  const onSubmit = handleSubmit((formData) => {
-    onChangeUserProfile({ email: formData.email });
-  });
+  const onSubmit = useCallback(() => {
+    handleSubmit((formData) => {
+      onChangeUserProfile({ email: formData.email });
+    });
+  }, [handleSubmit, onChangeUserProfile]);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">

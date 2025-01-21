@@ -13,11 +13,11 @@ type Props = {
 export const BoxContainer = ({ children, maxWidth, px, py }: Props) => {
   return (
     <Box
-      display="flex"
-      flexWrap="wrap"
-      justifyContent="center"
-      gap={2}
-      mt={3}
+      // display="flex"
+      // flexWrap="wrap"
+      // justifyContent="center"
+      // gap={2}
+      // mt={3}
       border={`1px solid ${Colors.primary}`}
       borderRadius={2}
       py={px || 4}

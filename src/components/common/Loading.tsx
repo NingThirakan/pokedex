@@ -6,7 +6,7 @@ type Props = {
 
 export const Loading = ({ open }: Props) => {
   return (
-    <Backdrop open={open}>
+    <Backdrop open={open} sx={{ zIndex: 1 }}>
       <CircularProgress />
     </Backdrop>
   );

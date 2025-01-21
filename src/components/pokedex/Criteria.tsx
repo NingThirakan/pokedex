@@ -1,6 +1,6 @@
 import { Search } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Colors } from "../../constants/Colors";
 import { PokemonDetailModel } from "../../model/PokemonDetailModel";
@@ -22,10 +22,12 @@ export const Criteria = ({
 }: Props) => {
   const { handleSubmit } = useFormContext<SearchPokemonSchema>();
 
-  const onSearch = handleSubmit((formData) => {
-    onChangeEnableGetAll(false);
-    onChangeKeyword(formData.keyword);
-  });
+  const onSearch = useCallback(() => {
+    handleSubmit((formData) => {
+      onChangeEnableGetAll(false);
+      onChangeKeyword(formData.keyword);
+    });
+  }, [handleSubmit, onChangeEnableGetAll, onChangeKeyword]);
 
   useEffect(() => {
     if (pokemon) {
