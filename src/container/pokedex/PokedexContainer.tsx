@@ -16,7 +16,7 @@ import { usePokedex } from "./PokedexContext";
 import { PageType } from "../../constants/PageType";
 
 export const PokedexContainer = () => {
-  const { pokemon, isLoading } = usePokedex();
+  const { pokemon, isLoading, open, onOpenForm, onClose } = usePokedex();
 
   const {
     pokemonList,
@@ -69,8 +69,11 @@ export const PokedexContainer = () => {
               id: pokemonId,
             }) as PokemonDetailModel
           }
+          open={open}
           onGoBack={onGoBack}
-          onAdd={onAddDetail}
+          onSubmit={onAddDetail}
+          onAdd={onOpenForm}
+          onClose={onClose}
         />
       )}
     </>

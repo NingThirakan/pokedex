@@ -1,6 +1,7 @@
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -14,6 +15,9 @@ import { usePokemonStore } from "../../store/PokemonStore";
 type PokedexContextType = {
   pokemon?: PokemonDetailModel;
   isLoading: boolean;
+  open: boolean;
+  onOpenForm: () => void;
+  onClose: () => void;
 };
 
 const PokedexContext = createContext({} as PokedexContextType);
@@ -37,6 +41,14 @@ export const PokedexProvider = ({ children }: Props) => {
     return isFetchingGetAllPokemon || isFetchingSearchPokemon;
   }, [isFetchingGetAllPokemon, isFetchingSearchPokemon]);
 
+  const onOpenForm = useCallback(() => {
+    setOpen(true);
+  }, [open, setOpen]);
+
+  const onClose = useCallback(() => {
+    setOpen(false);
+  }, [open, setOpen]);
+
   useEffect(() => {
     if (allPokemonData?.pokemonList) {
       onChangePokemonList(allPokemonData.pokemonList);
@@ -48,6 +60,9 @@ export const PokedexProvider = ({ children }: Props) => {
       value={{
         pokemon,
         isLoading,
+        open,
+        onOpenForm,
+        onClose,
       }}
     >
       {children}
