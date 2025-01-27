@@ -7,34 +7,54 @@ import {
   Typography,
 } from "@mui/material";
 import _ from "lodash";
+import { useEffect, useMemo } from "react";
 import { Colors } from "../../constants/Colors";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { PageType } from "../../constants/PageType";
+import { useGetPokemonByName } from "../../hook/useGetPokemonById";
+import { useLoading } from "../../store/LoadingStore";
+import { usePokemonStore } from "../../store/PokemonStore";
 import { hexToRgb } from "../../utils";
 import { PokemonType } from "../common/PokemonType";
 
 type Props = {
-  pokemon: PokemonDetailModel;
-  onClick: (id: number) => void;
+  pokemonName: string;
 };
 
-export const PokemonCard = ({ pokemon, onClick }: Props) => {
-  const { id, name, sprites, types } = pokemon;
-  const image = sprites.other["official-artwork"].front_default;
+export const PokemonCard = ({ pokemonName }: Props) => {
+  const { setIsLoading } = useLoading();
+  const { onSetPokemonList, onSetPageType } = usePokemonStore();
+  const { data, isFetching } = useGetPokemonByName(pokemonName);
+
+  const backgroundColor = useMemo(() => {
+    const typeName = data?.types?.[0]?.type?.name as keyof typeof Colors;
+    const colorHex = Colors[typeName] || "#FFFFFF";
+    return `rgba(${hexToRgb(colorHex)})`;
+  }, [data]);
+
+  useEffect(() => {
+    setIsLoading(isFetching);
+  }, [isFetching]);
+
+  useEffect(() => {
+    if (data) {
+      onSetPokemonList(data);
+    }
+  }, [data]);
 
   return (
     <Card
       sx={{
         width: 270,
-        backgroundColor: `rgba(${hexToRgb(
-          Colors[types[0].type.name as keyof typeof Colors]
-        )})`,
+        backgroundColor: backgroundColor,
       }}
     >
-      <CardActionArea onClick={() => onClick(id)}>
+      <CardActionArea
+        onClick={() => onSetPageType(PageType.ViewDetail, pokemonName)}
+      >
         <Box display="flex" justifyContent="center" alignContent="center">
           <CardMedia
             component="img"
-            image={image}
+            image={data?.sprites.other["official-artwork"].front_default}
             sx={{
               pt: 1,
               width: 160,
@@ -52,11 +72,13 @@ export const PokemonCard = ({ pokemon, onClick }: Props) => {
           }}
         >
           <Box display="flex" flexDirection="column" gap={1}>
-            <Typography>{id}</Typography>
-            <Typography variant="subtitle1">{_.upperFirst(name)}</Typography>
+            <Typography>{data?.id}</Typography>
+            <Typography variant="subtitle1">
+              {_.upperFirst(data?.name)}
+            </Typography>
           </Box>
           <PokemonType
-            types={types}
+            types={data?.types}
             sx={{
               display: "flex",
               flexDirection: "column",

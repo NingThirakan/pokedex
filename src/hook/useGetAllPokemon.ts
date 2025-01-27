@@ -1,12 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { GetPokemonReq } from "../@types/PokemonType";
-import { PokemonModel } from "../model/PokemonModel";
+import { PokedexModel, PokemonModel } from "../model/PokemonModel";
 import { PokemonService } from "../service/PokemonService";
 
+type Props = {
+  offset: number;
+  limit: number;
+  enabled: boolean;
+};
+
 // refactor use param แทนการเรียกจาก store เพราะการทำ custom hook คือไม่ต้องการผูกให้อยู่ภายใต้อะไร
-export const useGetAllPokemon = ({ offset, limit, enabled }: GetPokemonReq) => {
-  const { isFetching, data } = useQuery<PokemonModel>({
-    queryKey: ["getAllPokemon", offset, limit],
+export const useGetAllPokemon = ({ offset, limit, enabled }: Props) => {
+  const { isFetching, data } = useQuery<PokedexModel>({
+    queryKey: ["getAllPokemon", offset, limit, enabled],
     queryFn: () =>
       PokemonService.getAllPokemon({
         offset: offset,

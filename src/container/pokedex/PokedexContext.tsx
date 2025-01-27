@@ -4,18 +4,16 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import { useGetAllPokemon } from "../../hook/useGetAllPokemon";
-import { useSearchPokemon } from "../../hook/useSearchPokemon";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { PokedexModel } from "../../model/PokemonModel";
+import { useLoading } from "../../store/LoadingStore";
 import { usePokemonStore } from "../../store/PokemonStore";
 
 type PokedexContextType = {
-  pokemon?: PokemonDetailModel;
-  isLoading: boolean;
   open: boolean;
+  pokemonData?: PokedexModel;
   onOpenForm: () => void;
   onClose: () => void;
 };
@@ -29,17 +27,16 @@ type Props = {
 export const PokedexProvider = ({ children }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const { query, onChangePokemonList } = usePokemonStore();
+  const { setIsLoading } = useLoading();
 
-  const { data: allPokemonData, isFetching: isFetchingGetAllPokemon } =
-    useGetAllPokemon({ ...query });
+  const { query, enableGetAll, onSetPokemonList } = usePokemonStore();
 
-  const { data: pokemon, isFetching: isFetchingSearchPokemon } =
-    useSearchPokemon(query.keyword ?? "");
-
-  const isLoading = useMemo(() => {
-    return isFetchingGetAllPokemon || isFetchingSearchPokemon;
-  }, [isFetchingGetAllPokemon, isFetchingSearchPokemon]);
+  const { data: pokemonData, isFetching: isFetchingGetAllPokemon } =
+    useGetAllPokemon({
+      offset: query.offset!,
+      limit: query.limit!,
+      enabled: enableGetAll,
+    });
 
   const onOpenForm = useCallback(() => {
     setOpen(true);
@@ -50,19 +47,16 @@ export const PokedexProvider = ({ children }: Props) => {
   }, [open, setOpen]);
 
   useEffect(() => {
-    if (allPokemonData?.pokemonList) {
-      onChangePokemonList(allPokemonData.pokemonList);
-    }
-  }, [allPokemonData]);
+    setIsLoading(isFetchingGetAllPokemon);
+  }, [isFetchingGetAllPokemon]);
 
   return (
     <PokedexContext.Provider
       value={{
-        pokemon,
-        isLoading,
         open,
         onOpenForm,
         onClose,
+        pokemonData,
       }}
     >
       {children}

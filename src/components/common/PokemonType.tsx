@@ -4,14 +4,14 @@ import { Colors } from "../../constants/Colors";
 import { Type } from "../../model/PokemonDetailModel";
 
 type Props = {
-  types: Type[];
+  types?: Type[];
   sx?: SxProps<Theme>;
 };
 
 export const PokemonType = ({ types, sx }: Props) => {
   return (
     <Box gap={1} sx={sx}>
-      {types.map((type) => (
+      {_.map(types, (type) => (
         <Box
           key={type.type.name}
           width={70}

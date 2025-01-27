@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Grid2 as Grid, Modal } from "@mui/material";
-import { useCallback, useState } from "react";
+import { Box, Button, Grid2 as Grid } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { Container } from "../../components/common/Container";
 import { GoBackButton } from "../../components/common/GoBackButton";
@@ -39,6 +38,8 @@ export const PokemonContainer = ({
 
   const { name, sprites, types } = pokemon;
   const image = sprites.other["official-artwork"].front_default;
+
+  console.log("pokemon", pokemon);
 
   return (
     <>

@@ -9,33 +9,50 @@ type PokemonState = {
   query: GetPokemonReq;
   pokemonList: PokemonDetailModel[];
   pageType: PageType;
-  pokemonId: number | null;
+  selectedPokemon: string;
   searchLimit: { offset: number; limit: number };
   enableGetAll: boolean;
 
-  onChangePokemonList: (pokemon: PokemonDetailModel[]) => void;
-  onChangePageType: (pageType: PageType, id: number) => void;
+  onSetPokemonList: (pokemon: PokemonDetailModel) => void;
+  onSetPageType: (pageType: PageType, name: string) => void;
   onGoBack: () => void;
-  onChangeKeyword: (keyword: string) => void;
-  onChangeEnableGetAll: (value: boolean) => void;
+  onSetKeyword: (keyword: string) => void;
+  onSetEnableGetAll: (value: boolean) => void;
   onLoadMore: () => void;
   onAddDetail: (formData: PokemonDetailSchema) => void;
 };
 
 export const usePokemonStore = create<PokemonState>((set) => ({
-  query: { keyword: "", offset: 0, limit: 20 },
+  query: { keyword: "", offset: 0, limit: 20, enabled: true },
   pokemonList: [],
   pageType: PageType.Search,
-  pokemonId: null,
+  selectedPokemon: "",
   searchLimit: { offset: 0, limit: 20 },
   enableGetAll: true,
 
-  onChangePokemonList(pokemon) {
-    set({ pokemonList: pokemon });
+  onSetPokemonList(pokemon) {
+    set((state) => {
+      if (state.enableGetAll) {
+        const isDuplicate = _.some(
+          state.pokemonList,
+          (p) => p.id === pokemon.id
+        );
+        if (!isDuplicate) {
+          return {
+            pokemonList: [...state.pokemonList, pokemon],
+          };
+        }
+        return state;
+      } else {
+        return {
+          pokemonList: [pokemon],
+        };
+      }
+    });
   },
-  onChangePageType(pageType, id) {
+  onSetPageType(pageType, name) {
     set(() => {
-      return { pageType: pageType, pokemonId: id };
+      return { pageType: pageType, selectedPokemon: name };
     });
   },
   onGoBack() {
@@ -46,14 +63,14 @@ export const usePokemonStore = create<PokemonState>((set) => ({
       };
     });
   },
-  onChangeKeyword(keyword) {
+  onSetKeyword(keyword) {
     set((state) => {
       return {
         query: { ...state.query, keyword: _.lowerCase(keyword) },
       };
     });
   },
-  onChangeEnableGetAll(value) {
+  onSetEnableGetAll(value) {
     set({ enableGetAll: value });
   },
   onLoadMore() {

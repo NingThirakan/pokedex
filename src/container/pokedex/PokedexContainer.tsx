@@ -1,35 +1,32 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import _ from "lodash";
 import { FormProvider, useForm } from "react-hook-form";
 import { Container } from "../../components/common/Container";
-import { Loading } from "../../components/common/Loading";
 import { Criteria } from "../../components/pokedex/Criteria";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { PageType } from "../../constants/PageType";
 import {
   searchPokemonSchema,
   SearchPokemonSchema,
 } from "../../schema/SearchPokemonSchema";
 import { usePokemonStore } from "../../store/PokemonStore";
-import { PokemonContainer } from "../pokemon/PokemonContainer";
 import { Content } from "./Content";
 import { usePokedex } from "./PokedexContext";
-import { PageType } from "../../constants/PageType";
+import { PokemonContainer } from "../pokemon/PokemonContainer";
+import _ from "lodash";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 
 export const PokedexContainer = () => {
-  const { pokemon, isLoading, open, onOpenForm, onClose } = usePokedex();
+  const { pokemonData, open, onOpenForm, onClose } = usePokedex();
 
   const {
     pokemonList,
     pageType,
-    pokemonId,
+    selectedPokemon,
     enableGetAll,
-    onChangePageType,
-    onGoBack,
-    onChangeKeyword,
-    onChangeEnableGetAll,
+    onSetKeyword,
+    onSetEnableGetAll,
     onLoadMore,
+    onGoBack,
     onAddDetail,
-    onChangePokemonList,
   } = usePokemonStore();
 
   const searchForm = useForm<SearchPokemonSchema>({
@@ -38,25 +35,22 @@ export const PokedexContainer = () => {
     mode: "all",
   });
 
+  console.log("pokemonList", pokemonList);
+
   return (
     <>
-      {isLoading && <Loading open={isLoading} />}
-
       {pageType === PageType.Search && (
         <Container>
           <FormProvider {...searchForm}>
             <Criteria
-              pokemon={pokemon}
-              onChangePokemonList={onChangePokemonList}
-              onChangeKeyword={onChangeKeyword}
-              onChangeEnableGetAll={onChangeEnableGetAll}
+              onSetKeyword={onSetKeyword}
+              onSetEnableGetAll={onSetEnableGetAll}
             />
           </FormProvider>
 
           <Content
-            pokemonList={pokemonList}
+            pokemonList={pokemonData}
             isShowLoadMore={enableGetAll}
-            onChangePageType={onChangePageType}
             onLoadMore={onLoadMore}
           />
         </Container>
@@ -66,7 +60,7 @@ export const PokedexContainer = () => {
         <PokemonContainer
           pokemon={
             _.find(pokemonList, {
-              id: pokemonId,
+              name: selectedPokemon,
             }) as PokemonDetailModel
           }
           open={open}

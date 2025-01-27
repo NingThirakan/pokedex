@@ -1,12 +1,11 @@
 import { Backdrop, CircularProgress } from "@mui/material";
+import { useLoading } from "../../store/LoadingStore";
 
-type Props = {
-  open: boolean;
-};
+export const Loading = () => {
+  const { isLoading } = useLoading();
 
-export const Loading = ({ open }: Props) => {
   return (
-    <Backdrop open={open} sx={{ zIndex: 1 }}>
+    <Backdrop open={isLoading} sx={{ zIndex: 1 }}>
       <CircularProgress />
     </Backdrop>
   );

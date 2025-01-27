@@ -2,22 +2,15 @@ import { Button, Grid2 as Grid } from "@mui/material";
 import _ from "lodash";
 import { PokemonCard } from "../../components/pokemon/PokemonCard";
 import { Colors } from "../../constants/Colors";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
-import { PageType } from "../../constants/PageType";
+import { PokedexModel } from "../../model/PokemonModel";
 
 type Props = {
-  pokemonList: PokemonDetailModel[];
+  pokemonList?: PokedexModel;
   isShowLoadMore: boolean;
-  onChangePageType: (pageType: PageType, id: number) => void;
   onLoadMore: () => void;
 };
 
-export const Content = ({
-  pokemonList,
-  isShowLoadMore,
-  onChangePageType,
-  onLoadMore,
-}: Props) => {
+export const Content = ({ pokemonList, isShowLoadMore, onLoadMore }: Props) => {
   return (
     <Grid
       container
@@ -31,12 +24,9 @@ export const Content = ({
         backgroundColor: Colors.background,
       }}
     >
-      {_.map(pokemonList, (pokemon) => (
-        <Grid key={pokemon.id}>
-          <PokemonCard
-            pokemon={pokemon}
-            onClick={() => onChangePageType(PageType.ViewDetail, pokemon.id)}
-          />
+      {_.map(pokemonList?.results, (pokemon, index) => (
+        <Grid key={index}>
+          <PokemonCard pokemonName={pokemon.name} />
         </Grid>
       ))}
 

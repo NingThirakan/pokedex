@@ -1,6 +1,6 @@
 import { Search } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Colors } from "../../constants/Colors";
 import { PokemonDetailModel } from "../../model/PokemonDetailModel";
@@ -8,32 +8,33 @@ import { SearchPokemonSchema } from "../../schema/SearchPokemonSchema";
 import { FormTextField } from "../common/FormTextField";
 
 type Props = {
-  pokemon: PokemonDetailModel | undefined;
-  onChangePokemonList: (pokemon: PokemonDetailModel[]) => void;
-  onChangeKeyword: (keyword: string) => void;
-  onChangeEnableGetAll: (value: boolean) => void;
+  // onSetPokemonList: (pokemon: PokemonDetailModel[]) => void;
+  onSetKeyword: (keyword: string) => void;
+  onSetEnableGetAll: (value: boolean) => void;
 };
 
 export const Criteria = ({
-  pokemon,
-  onChangePokemonList,
-  onChangeKeyword,
-  onChangeEnableGetAll,
+  // onSetPokemonList,
+  onSetKeyword,
+  onSetEnableGetAll,
 }: Props) => {
   const { handleSubmit } = useFormContext<SearchPokemonSchema>();
 
-  const onSearch = useCallback(() => {
-    handleSubmit((formData) => {
-      onChangeEnableGetAll(false);
-      onChangeKeyword(formData.keyword);
-    });
-  }, [handleSubmit, onChangeEnableGetAll, onChangeKeyword]);
-
-  useEffect(() => {
-    if (pokemon) {
-      onChangePokemonList([pokemon]);
+  const onSearch = handleSubmit((formData) => {
+    console.log("search");
+    if (formData.keyword) {
+      onSetEnableGetAll(false);
+      onSetKeyword(formData.keyword);
+    } else {
+      onSetEnableGetAll(true);
     }
-  }, [pokemon]);
+  });
+
+  // useEffect(() => {
+  //   if (pokemon) {
+  //     onSetPokemonList([pokemon]);
+  //   }
+  // }, [pokemon]);
 
   return (
     <>

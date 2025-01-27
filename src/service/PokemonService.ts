@@ -7,39 +7,51 @@ export class PokemonService {
   public static async getAllPokemon({
     offset,
     limit,
-  }: GetPokemonReq): Promise<PokemonModel> {
-    const resPokedex = await fetch(
+  }: GetPokemonReq): Promise<PokedexModel> {
+    const res = await fetch(
       `${pokemon_api}/pokemon?offset=${offset}&limit=${limit}`
     );
-    const pokedex: PokedexModel = await resPokedex.json();
+    return await res.json();
 
-    const pokemons: PokemonDetailModel[] = await Promise.all(
-      pokedex.results.map(async (item) => {
-        try {
-          const res = await fetch(`${pokemon_api}/pokemon/${item.name}`);
-          return res.json();
-        } catch (error) {
-          const err = error as Error;
-          throw new Error(err.message);
-        }
-      })
-    );
+    // const pokemons: PokemonDetailModel[] = await Promise.all(
+    //   pokedex.results.map(async (item) => {
+    //     try {
+    //       const res = await fetch(`${pokemon_api}/pokemon/${item.name}`);
+    //       return res.json();
+    //     } catch (error) {
+    //       const err = error as Error;
+    //       throw new Error(err.message);
+    //     }
+    //   })
+    // );
 
-    return {
-      count: pokedex.count,
-      pokemonList: pokemons,
-    };
+    // return {
+    //   count: pokedex.count,
+    //   pokemonList: pokemons,
+    // };
   }
 
-  public static async searchPokemon({
-    keyword,
-  }: GetPokemonReq): Promise<PokemonDetailModel> {
+  public static async getPokemonByName(
+    name: string
+  ): Promise<PokemonDetailModel> {
     try {
-      const res = await fetch(`${pokemon_api}/pokemon/${keyword}`);
+      const res = await fetch(`${pokemon_api}/pokemon/${name}`);
       return await res.json();
     } catch (error) {
       const err = error as Error;
       throw new Error(err.message);
     }
   }
+
+  // public static async searchPokemon({
+  //   keyword,
+  // }: GetPokemonReq): Promise<PokemonDetailModel> {
+  //   try {
+  //     const res = await fetch(`${pokemon_api}/pokemon/${keyword}`);
+  //     return await res.json();
+  //   } catch (error) {
+  //     const err = error as Error;
+  //     throw new Error(err.message);
+  //   }
+  // }
 }
