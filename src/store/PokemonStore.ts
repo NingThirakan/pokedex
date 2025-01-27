@@ -11,13 +11,13 @@ type PokemonState = {
   pageType: PageType;
   selectedPokemon: string;
   searchLimit: { offset: number; limit: number };
-  enableGetAll: boolean;
+  isSearch: boolean;
 
   onSetPokemonList: (pokemon: PokemonDetailModel) => void;
   onSetPageType: (pageType: PageType, name: string) => void;
   onGoBack: () => void;
   onSetKeyword: (keyword: string) => void;
-  onSetEnableGetAll: (value: boolean) => void;
+  onSetIsSearch: (value: boolean) => void;
   onLoadMore: () => void;
   onAddDetail: (formData: PokemonDetailSchema) => void;
 };
@@ -28,11 +28,11 @@ export const usePokemonStore = create<PokemonState>((set) => ({
   pageType: PageType.Search,
   selectedPokemon: "",
   searchLimit: { offset: 0, limit: 20 },
-  enableGetAll: true,
+  isSearch: false,
 
   onSetPokemonList(pokemon) {
     set((state) => {
-      if (state.enableGetAll) {
+      if (!state.isSearch) {
         const isDuplicate = _.some(
           state.pokemonList,
           (p) => p.id === pokemon.id
@@ -70,8 +70,8 @@ export const usePokemonStore = create<PokemonState>((set) => ({
       };
     });
   },
-  onSetEnableGetAll(value) {
-    set({ enableGetAll: value });
+  onSetIsSearch(value) {
+    set({ isSearch: value });
   },
   onLoadMore() {
     set((state) => {

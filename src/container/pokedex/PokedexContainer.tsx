@@ -1,41 +1,40 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import _ from "lodash";
 import { FormProvider, useForm } from "react-hook-form";
 import { Container } from "../../components/common/Container";
 import { Criteria } from "../../components/pokedex/Criteria";
 import { PageType } from "../../constants/PageType";
+import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import {
   searchPokemonSchema,
   SearchPokemonSchema,
 } from "../../schema/SearchPokemonSchema";
 import { usePokemonStore } from "../../store/PokemonStore";
+import { PokemonContainer } from "../pokemon/PokemonContainer";
 import { Content } from "./Content";
 import { usePokedex } from "./PokedexContext";
-import { PokemonContainer } from "../pokemon/PokemonContainer";
-import _ from "lodash";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 
 export const PokedexContainer = () => {
-  const { pokemonData, open, onOpenForm, onClose } = usePokedex();
-
   const {
+    query,
     pokemonList,
     pageType,
     selectedPokemon,
-    enableGetAll,
+    isSearch,
     onSetKeyword,
-    onSetEnableGetAll,
+    onSetIsSearch,
     onLoadMore,
     onGoBack,
     onAddDetail,
   } = usePokemonStore();
+
+  const { pokemonData, open, onOpenForm, onClose } = usePokedex();
 
   const searchForm = useForm<SearchPokemonSchema>({
     defaultValues: { keyword: "" },
     resolver: zodResolver(searchPokemonSchema),
     mode: "all",
   });
-
-  console.log("pokemonList", pokemonList);
 
   return (
     <>
@@ -44,13 +43,14 @@ export const PokedexContainer = () => {
           <FormProvider {...searchForm}>
             <Criteria
               onSetKeyword={onSetKeyword}
-              onSetEnableGetAll={onSetEnableGetAll}
+              onSetIsSearch={onSetIsSearch}
             />
           </FormProvider>
 
           <Content
             pokemonList={pokemonData}
-            isShowLoadMore={enableGetAll}
+            isSearch={isSearch}
+            pokemonName={query.keyword}
             onLoadMore={onLoadMore}
           />
         </Container>

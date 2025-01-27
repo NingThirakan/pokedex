@@ -6,11 +6,17 @@ import { PokedexModel } from "../../model/PokemonModel";
 
 type Props = {
   pokemonList?: PokedexModel;
-  isShowLoadMore: boolean;
+  pokemonName?: string;
+  isSearch: boolean;
   onLoadMore: () => void;
 };
 
-export const Content = ({ pokemonList, isShowLoadMore, onLoadMore }: Props) => {
+export const Content = ({
+  pokemonList,
+  pokemonName,
+  isSearch,
+  onLoadMore,
+}: Props) => {
   return (
     <Grid
       container
@@ -24,19 +30,25 @@ export const Content = ({ pokemonList, isShowLoadMore, onLoadMore }: Props) => {
         backgroundColor: Colors.background,
       }}
     >
-      {_.map(pokemonList?.results, (pokemon, index) => (
-        <Grid key={index}>
-          <PokemonCard pokemonName={pokemon.name} />
-        </Grid>
-      ))}
+      {!isSearch ? (
+        <>
+          {_.map(pokemonList?.results, (pokemon, index) => (
+            <Grid key={index}>
+              <PokemonCard pokemonName={pokemon.name} />
+            </Grid>
+          ))}
 
-      <Grid size={12} display="flex" justifyContent="center">
-        {isShowLoadMore && (
-          <Button onClick={onLoadMore} sx={{ mt: 1 }}>
-            Load more
-          </Button>
-        )}
-      </Grid>
+          <Grid size={12} display="flex" justifyContent="center">
+            <Button onClick={onLoadMore} sx={{ mt: 1 }}>
+              Load more
+            </Button>
+          </Grid>
+        </>
+      ) : (
+        <Grid>
+          <PokemonCard pokemonName={pokemonName ?? ""} />
+        </Grid>
+      )}
     </Grid>
   );
 };

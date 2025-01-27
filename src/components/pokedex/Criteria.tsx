@@ -1,40 +1,26 @@
 import { Search } from "@mui/icons-material";
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Colors } from "../../constants/Colors";
-import { PokemonDetailModel } from "../../model/PokemonDetailModel";
 import { SearchPokemonSchema } from "../../schema/SearchPokemonSchema";
 import { FormTextField } from "../common/FormTextField";
 
 type Props = {
-  // onSetPokemonList: (pokemon: PokemonDetailModel[]) => void;
   onSetKeyword: (keyword: string) => void;
-  onSetEnableGetAll: (value: boolean) => void;
+  onSetIsSearch: (value: boolean) => void;
 };
 
-export const Criteria = ({
-  // onSetPokemonList,
-  onSetKeyword,
-  onSetEnableGetAll,
-}: Props) => {
+export const Criteria = ({ onSetKeyword, onSetIsSearch }: Props) => {
   const { handleSubmit } = useFormContext<SearchPokemonSchema>();
 
   const onSearch = handleSubmit((formData) => {
-    console.log("search");
     if (formData.keyword) {
-      onSetEnableGetAll(false);
+      onSetIsSearch(true);
       onSetKeyword(formData.keyword);
     } else {
-      onSetEnableGetAll(true);
+      onSetIsSearch(false);
     }
   });
-
-  // useEffect(() => {
-  //   if (pokemon) {
-  //     onSetPokemonList([pokemon]);
-  //   }
-  // }, [pokemon]);
 
   return (
     <>

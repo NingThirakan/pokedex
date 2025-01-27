@@ -29,13 +29,13 @@ export const PokedexProvider = ({ children }: Props) => {
 
   const { setIsLoading } = useLoading();
 
-  const { query, enableGetAll, onSetPokemonList } = usePokemonStore();
+  const { query, isSearch } = usePokemonStore();
 
   const { data: pokemonData, isFetching: isFetchingGetAllPokemon } =
     useGetAllPokemon({
       offset: query.offset!,
       limit: query.limit!,
-      enabled: enableGetAll,
+      enabled: !isSearch,
     });
 
   const onOpenForm = useCallback(() => {
