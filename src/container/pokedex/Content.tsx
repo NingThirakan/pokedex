@@ -2,10 +2,10 @@ import { Button, Grid2 as Grid } from "@mui/material";
 import _ from "lodash";
 import { PokemonCard } from "../../components/pokemon/PokemonCard";
 import { Colors } from "../../constants/Colors";
-import { PokedexModel } from "../../model/PokemonModel";
+import { Result } from "../../model/PokemonModel";
 
 type Props = {
-  pokemonList?: PokedexModel;
+  pokemonList: Result[];
   pokemonName?: string;
   isSearch: boolean;
   onLoadMore: () => void;
@@ -32,8 +32,8 @@ export const Content = ({
     >
       {!isSearch ? (
         <>
-          {_.map(pokemonList?.results, (pokemon, index) => (
-            <Grid key={index}>
+          {_.map(pokemonList, (pokemon) => (
+            <Grid key={pokemon.name}>
               <PokemonCard pokemonName={pokemon.name} />
             </Grid>
           ))}

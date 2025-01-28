@@ -13,6 +13,8 @@ import { usePokemonStore } from "../../store/PokemonStore";
 import { PokemonContainer } from "../pokemon/PokemonContainer";
 import { Content } from "./Content";
 import { usePokedex } from "./PokedexContext";
+import { Button, Typography } from "@mui/material";
+import { useEffect } from "react";
 
 export const PokedexContainer = () => {
   const {
@@ -47,8 +49,16 @@ export const PokedexContainer = () => {
             />
           </FormProvider>
 
+          {/* {_.map(pokemonData?.results, (item) => (
+            <Typography>{item.name}</Typography>
+          ))}
+
+          <Button onClick={onLoadMore} sx={{ mt: 1 }}>
+            Load more
+          </Button> */}
+
           <Content
-            pokemonList={pokemonData}
+            pokemonList={pokemonData?.results ?? []}
             isSearch={isSearch}
             pokemonName={query.keyword}
             onLoadMore={onLoadMore}

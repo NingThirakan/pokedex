@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useGetAllPokemon } from "../../hook/useGetAllPokemon";
@@ -46,9 +47,9 @@ export const PokedexProvider = ({ children }: Props) => {
     setOpen(false);
   }, [open, setOpen]);
 
-  useEffect(() => {
-    setIsLoading(isFetchingGetAllPokemon);
-  }, [isFetchingGetAllPokemon]);
+  // useEffect(() => {
+  //   setIsLoading(isFetchingGetAllPokemon);
+  // }, [isFetchingGetAllPokemon]);
 
   return (
     <PokedexContext.Provider

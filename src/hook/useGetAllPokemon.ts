@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { PokedexModel, PokemonModel } from "../model/PokemonModel";
+import { PokedexModel } from "../model/PokemonModel";
 import { PokemonService } from "../service/PokemonService";
 
 type Props = {

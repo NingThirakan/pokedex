@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import _ from "lodash";
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Colors } from "../../constants/Colors";
 import { PageType } from "../../constants/PageType";
 import { useGetPokemonByName } from "../../hook/useGetPokemonById";
@@ -31,6 +31,10 @@ export const PokemonCard = ({ pokemonName }: Props) => {
     return `rgba(${hexToRgb(colorHex)})`;
   }, [data]);
 
+  const handleClick = useCallback(() => {
+    onSetPageType(PageType.ViewDetail, pokemonName);
+  }, [pokemonName, onSetPageType]);
+
   useEffect(() => {
     setIsLoading(isFetching);
   }, [isFetching]);
@@ -48,9 +52,7 @@ export const PokemonCard = ({ pokemonName }: Props) => {
         backgroundColor: backgroundColor,
       }}
     >
-      <CardActionArea
-        onClick={() => onSetPageType(PageType.ViewDetail, pokemonName)}
-      >
+      <CardActionArea onClick={handleClick}>
         <Box display="flex" justifyContent="center" alignContent="center">
           <CardMedia
             component="img"
