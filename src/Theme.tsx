@@ -75,5 +75,10 @@ export const theme = createTheme({
         },
       },
     },
+    MuiIconButton: {
+      defaultProps: {
+        size: "small",
+      },
+    },
   },
 });

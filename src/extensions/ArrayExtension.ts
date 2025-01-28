@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { ExType } from "../@types/TestType";
 import { pokemon_api } from "../config/api";
 import { Ability, PokemonDetailModel } from "../model/PokemonDetailModel";
@@ -33,7 +34,7 @@ Array.prototype.transformPokemon = async function (): Promise<ExType[]> {
 
       return {
         name: pokemon.name,
-        ability: pokemon.abilities.map((ability, index) => {
+        ability: _.map(pokemon.abilities, (ability, index) => {
           const effect = effects[index].effect_entries.find(
             (e) => e.language.name === "en"
           );

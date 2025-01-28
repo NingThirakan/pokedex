@@ -39,8 +39,6 @@ export const PokemonContainer = ({
   const { name, sprites, types } = pokemon;
   const image = sprites.other["official-artwork"].front_default;
 
-  console.log("pokemon", pokemon);
-
   return (
     <>
       {open && (

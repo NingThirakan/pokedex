@@ -81,7 +81,7 @@ export const usePokemonStore = create<PokemonState>((set) => ({
   onAddDetail(formData) {
     set((state) => {
       return {
-        pokemonList: state.pokemonList.map((pokemon) =>
+        pokemonList: _.map(state.pokemonList, (pokemon) =>
           pokemon.name === formData.name
             ? { ...pokemon, detail: formData.detail }
             : pokemon

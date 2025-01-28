@@ -1,19 +1,21 @@
 import { Box, Typography } from "@mui/material";
+import _ from "lodash";
+import { useMemo } from "react";
+import { TextContentType } from "../../@types/TextContent";
 import { Stats } from "../../constants/Stats";
 import { PokemonDetailModel } from "../../model/PokemonDetailModel";
+import { AudioPlayerButton } from "../common/AudioPlayerButton";
 import { PokemonType } from "../common/PokemonType";
 import { Stat } from "./Stat";
 import { TextContent } from "./TextContent";
-import { useMemo } from "react";
-import { TextContentType } from "../../@types/TextContent";
 
 type Props = {
   pokemon: PokemonDetailModel;
 };
 
 export const PokemonDetail = ({ pokemon }: Props) => {
-  const renderPokemonStat = useMemo(() => {
-    return pokemon.stats.map((stat) => (
+  const renderStats = useMemo(() => {
+    return _.map(pokemon.stats, (stat) => (
       <Stat
         key={stat.stat.name}
         label={Stats[stat.stat.name as keyof typeof Stats]}
@@ -22,11 +24,15 @@ export const PokemonDetail = ({ pokemon }: Props) => {
     ));
   }, [pokemon.stats]);
 
-  const content: TextContentType[] = useMemo(() => {
+  const pokemonContent: TextContentType[] = useMemo(() => {
     return [
       {
         label: "National No",
         value: pokemon.id,
+      },
+      {
+        label: "Name",
+        value: _.upperFirst(pokemon.name),
       },
       {
         label: "Type",
@@ -39,6 +45,10 @@ export const PokemonDetail = ({ pokemon }: Props) => {
             }}
           />
         ),
+      },
+      {
+        label: "Cries",
+        component: <AudioPlayerButton src={pokemon.cries.latest} />,
       },
       {
         label: "Height",
@@ -56,7 +66,7 @@ export const PokemonDetail = ({ pokemon }: Props) => {
         label: "Stats",
         component: (
           <Box display="flex" gap={1} justifyContent="center" width="280px">
-            {renderPokemonStat}
+            {renderStats}
           </Box>
         ),
       },
@@ -73,7 +83,7 @@ export const PokemonDetail = ({ pokemon }: Props) => {
         Pokémon Data
       </Typography>
 
-      {content.map((item) => (
+      {_.map(pokemonContent, (item) => (
         <TextContent
           key={item.label}
           label={item.label}
